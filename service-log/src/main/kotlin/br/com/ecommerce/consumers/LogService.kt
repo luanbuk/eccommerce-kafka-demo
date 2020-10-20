@@ -11,7 +11,7 @@ class LogService : GenericConsumer<String>(
         deserializer = StringDeserializer::class.java
 ) {
     override fun processMessage(message: ConsumerRecord<String, String>) {
-        println( "LOG-Consumindo mensagens: ${ToStringBuilder.reflectionToString(message.value())}" )
+        println( "LOG-Consumindo mensagens: ${message.value()}" )
     }
 
     companion object{
