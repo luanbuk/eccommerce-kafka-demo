@@ -13,5 +13,14 @@
     <artifactId>common-kafka</artifactId>
     <name>Common Kafka</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>br.com.ecommerce</groupId>
+            <artifactId>arch</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
 
 </project>

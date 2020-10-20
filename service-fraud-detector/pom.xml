@@ -13,5 +13,13 @@
     <artifactId>service-fraud-detector</artifactId>
     <name>Fraud Detector</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>br.com.ecommerce</groupId>
+            <artifactId>common-kafka</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 </project>

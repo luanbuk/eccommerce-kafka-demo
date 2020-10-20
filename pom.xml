@@ -161,7 +161,8 @@
         <module>service-fraud-detector</module>
         <module>service-http-ecommerce</module>
         <module>service-log</module>
-        <module>service-new-order</module>
+        <module>service-new-orders</module>
         <module>service-users</module>
+        <module>arch</module>
     </modules>
 </project>
