@@ -1,6 +1,10 @@
 package br.com.ecommerce.kafka
 
-enum class Topics(val identifier: String) {
-    ECOMMERCE_NEW_ORDER("ECOMMERCE_NEW_ORDER"),
-    ECOMMERCE_SEND_EMAIL("ECOMMERCE_SEND_EMAIL")
+enum class Topics {
+    ECOMMERCE_NEW_ORDER,
+    ECOMMERCE_SEND_EMAIL,
+    ECOMMERCE_ORDER_REJECTED,
+    ECOMMERCE_ORDER_APPROVED;
+
+    val identifier: String = this.name
 }

@@ -10,7 +10,7 @@ class OrdersProducer : GenericProducer<Order>(ECOMMERCE_NEW_ORDER){
         @JvmStatic
         fun main(args: Array<String>) {
 
-            (1..1050).forEach {
+            (1..10).forEach {
                 OrdersProducer().create(value = Order(
                         userId = UUID.randomUUID().toString(),
                         orderId = UUID.randomUUID().toString(),
