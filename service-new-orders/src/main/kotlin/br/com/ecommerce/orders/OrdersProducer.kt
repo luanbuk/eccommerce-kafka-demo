@@ -11,8 +11,10 @@ class OrdersProducer : GenericProducer<Order>(ECOMMERCE_NEW_ORDER){
         fun main(args: Array<String>) {
 
             (1..10).forEach {
+                val id = UUID.randomUUID().toString()
                 OrdersProducer().create(value = Order(
-                        userId = UUID.randomUUID().toString(),
+                        userId = id,
+                        userEmail = "$id@gmail.com",
                         orderId = UUID.randomUUID().toString(),
                         value = BigDecimal.valueOf((Math.random() * 5_000) + it)
                 ))

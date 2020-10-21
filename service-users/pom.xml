@@ -12,5 +12,19 @@
     <artifactId>service-users</artifactId>
     <name>Users</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.32.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>br.com.ecommerce</groupId>
+            <artifactId>common-kafka</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
 
 </project>
