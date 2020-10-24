@@ -1,7 +1,7 @@
 package br.com.ecommerce.producers
 
 import br.com.ecommerce.kafka.KafkaProperties
-import br.com.ecommerce.kafka.Topics
+import br.com.ecommerce.kafka.Topic
 import mu.KLogging
 import org.apache.commons.lang3.builder.ToStringBuilder
 import org.apache.kafka.clients.producer.KafkaProducer
@@ -11,17 +11,17 @@ import java.lang.Exception
 import java.util.*
 
 abstract class GenericProducer<T> (
-        val topic: Topics
+        val topic: Topic
 ) {
 
-    protected val kafkaProducer = KafkaProducer<String, T>(KafkaProperties.producers)
+    private val kafkaProducer = KafkaProducer<String, T>(KafkaProperties.producers)
 
     fun create(key: String = UUID.randomUUID().toString(), value: T){
         this.kafkaProducer.send(ProducerRecord<String, T>(this.topic.identifier, key, value), this::productionResponse).get()
     }
 
     private fun productionResponse(record: RecordMetadata?, exception: Exception?){
-        exception?.printStackTrace() ?: record?.let { println ( "Envio de mensagem:: ${ToStringBuilder.reflectionToString(it)}" ) }
+        exception?.printStackTrace() ?: record?.let { logger.info { "Envio de mensagem:: ${ToStringBuilder.reflectionToString(it)}" } }
     }
 
     companion object: KLogging()

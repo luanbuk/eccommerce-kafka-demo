@@ -2,19 +2,19 @@ package br.com.ecommerce.consumers
 
 import br.com.ecommerce.arch.NoArgs
 import br.com.ecommerce.kafka.KafkaProperties.consumers
+import br.com.ecommerce.kafka.Topic
 import mu.KLogging
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.serialization.Deserializer
-import java.lang.RuntimeException
 import java.time.Duration
 import java.util.concurrent.Executors
 
 @NoArgs
 abstract class GenericConsumer<T>(
         private val groupId: String,
-        private val topics: Collection<br.com.ecommerce.kafka.Topics>,
+        private val topics: Collection<Topic>,
         private val deserializer: Class<out Deserializer<*>>
 ) {
     private val consumer = KafkaConsumer<String, T>(consumers.also {
@@ -40,7 +40,6 @@ abstract class GenericConsumer<T>(
                 records.forEach {
                     this.processMessage(it)
                 }
-                //Thread.sleep(700)
             }
         } catch (e: Throwable){
             e.printStackTrace()

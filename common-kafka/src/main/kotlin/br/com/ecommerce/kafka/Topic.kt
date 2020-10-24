@@ -1,6 +1,6 @@
 package br.com.ecommerce.kafka
 
-enum class Topics {
+enum class Topic {
     ECOMMERCE_NEW_ORDER,
     ECOMMERCE_SEND_EMAIL,
     ECOMMERCE_ORDER_REJECTED,

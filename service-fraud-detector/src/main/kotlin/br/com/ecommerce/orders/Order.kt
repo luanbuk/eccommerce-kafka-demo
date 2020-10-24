@@ -3,10 +3,9 @@ package br.com.ecommerce.orders
 import org.apache.commons.lang3.builder.ToStringBuilder
 import java.math.BigDecimal
 
-class Order(
-        val userId: String,
+data class Order(
+        val email: String,
         val orderId: String,
-        val userEmail: String,
         val value: BigDecimal
 ){
 

@@ -2,7 +2,7 @@ package br.com.ecommerce.orders
 
 import br.com.ecommerce.emails.Email
 import br.com.ecommerce.emails.EmailProducer
-import br.com.ecommerce.kafka.Topics.ECOMMERCE_NEW_ORDER
+import br.com.ecommerce.kafka.Topic.ECOMMERCE_NEW_ORDER
 import br.com.ecommerce.producers.GenericProducer
 import java.math.BigDecimal
 import java.util.*
@@ -12,13 +12,13 @@ class OrdersProducer : GenericProducer<Order>(ECOMMERCE_NEW_ORDER){
         @JvmStatic
         fun main(args: Array<String>) {
 
-            (1..5).forEach {
+            val email = "teste@gmail.com"
 
-                val id = UUID.randomUUID().toString()
-                val email = "$id@gmail.com"
-                OrdersProducer().create(value = Order(
-                        userId = id,
-                        userEmail = "$id@gmail.com",
+            (1..5).forEach {
+                OrdersProducer().create(
+                        key = email,
+                        value = Order(
+                        email = email,
                         orderId = UUID.randomUUID().toString(),
                         value = BigDecimal.valueOf((Math.random() * 5_000) + it)
                 ))

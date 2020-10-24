@@ -11,5 +11,6 @@ open class GenericDeserializer<T>(
 
     private val gson = GsonBuilder().create()
 
-    override fun deserialize(p0: String?, value: ByteArray?) = gson.fromJson(InputStreamReader(ByteArrayInputStream(value)), clazz)
+    override fun deserialize(p0: String?, value: ByteArray?) =
+            gson.fromJson(InputStreamReader(ByteArrayInputStream(value)), clazz)
 }

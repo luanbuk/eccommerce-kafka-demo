@@ -1,19 +1,18 @@
 package br.com.ecommerce.consumers
 
 import br.com.ecommerce.arch.NoArgs
-import br.com.ecommerce.kafka.Topics
+import br.com.ecommerce.kafka.Topic
 import br.com.ecommerce.orders.Order
 import br.com.ecommerce.orders.OrderDeserializer
 import br.com.ecommerce.orders.dispatchers.ApprovedOrderDispatcher
 import br.com.ecommerce.orders.dispatchers.RejectedOrderDispatcher
-import org.apache.commons.lang3.builder.ToStringBuilder
+import mu.KLogging
 import org.apache.kafka.clients.consumer.ConsumerRecord
-import java.math.BigDecimal
 
 @NoArgs
 class FraudDetectorService : GenericConsumer<Order>(
         groupId = FraudDetectorService::class.java.name,
-        topics = listOf(Topics.ECOMMERCE_NEW_ORDER),
+        topics = listOf(Topic.ECOMMERCE_NEW_ORDER),
         deserializer = OrderDeserializer::class.java
 ) {
     private val approvedDispatcher = ApprovedOrderDispatcher()
@@ -22,17 +21,17 @@ class FraudDetectorService : GenericConsumer<Order>(
 
     override fun processMessage(message: ConsumerRecord<String, Order>) {
         if(message.value().fraudulent()){
-            println( "Pedido faudulento: ${message.value()}" )
-            approvedDispatcher.create(message.value().userId, message.value())
+            logger.info { "Pedido faudulento: ${message.value()}" }
+            approvedDispatcher.create(message.value().email, message.value())
 
         }else{
-            println( "Pedido aprovado: ${message.value()}" )
+            logger.info { "Pedido aprovado: ${message.value()}" }
 
-            rejectedDispatcher.create(message.value().userId, message.value())
+            rejectedDispatcher.create(message.value().email, message.value())
         }
     }
 
-    companion object{
+    companion object : KLogging(){
         @JvmStatic
         fun main(args: Array<String>) {
             FraudDetectorService().start()

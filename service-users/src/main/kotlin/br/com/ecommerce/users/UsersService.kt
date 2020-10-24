@@ -1,15 +1,16 @@
 package br.com.ecommerce.users
 
 import br.com.ecommerce.consumers.GenericConsumer
-import br.com.ecommerce.kafka.Topics
+import br.com.ecommerce.kafka.Topic
 import br.com.ecommerce.orders.Order
 import br.com.ecommerce.orders.OrderDeserializer
 import mu.KLogging
 import org.apache.kafka.clients.consumer.ConsumerRecord
+import java.util.*
 
 class UsersService : GenericConsumer<Order>(
         groupId = UsersService::class.java.name,
-        topics = listOf(Topics.ECOMMERCE_ORDER_APPROVED),
+        topics = listOf(Topic.ECOMMERCE_ORDER_APPROVED),
         deserializer = OrderDeserializer::class.java
 ) {
 
@@ -21,21 +22,21 @@ class UsersService : GenericConsumer<Order>(
 
     override fun processMessage(message: ConsumerRecord<String, Order>) {
         if (message.value().emailExists()) {
-            logger.info { "E-mail [${message.value().userEmail}] já presente em base de dados" }
+            logger.info { "E-mail [${message.value().email}] já presente em base de dados" }
         } else{
            message.value().insertNewUser()
         }
     }
 
-    private fun Order.emailExists() = this@UsersService.usersRepository.exists(this.userEmail)
+    private fun Order.emailExists() = this@UsersService.usersRepository.exists(this.email)
 
     private fun Order.insertNewUser() = this.also {
-        val inserted = usersRepository.insert(this.userId, this.userEmail)
+        val inserted = usersRepository.insert(UUID.randomUUID().toString(), this.email)
 
         if(inserted){
-            logger.info { "E-mail [${this.userEmail}] inserido em base de dados" }
+            logger.info { "E-mail [${this.email}] inserido em base de dados" }
         }else{
-            logger.info { "E-mail [${this.userEmail}] falha ao inserir em base de dados" }
+            logger.info { "E-mail [${this.email}] falha ao inserir em base de dados" }
         }
     }
 
