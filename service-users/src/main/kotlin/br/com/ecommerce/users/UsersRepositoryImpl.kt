@@ -2,7 +2,7 @@ package br.com.ecommerce.users
 
 class UsersRepositoryImpl : GenericRepository(), UsersRepository {
 
-    override val connectionUrl = "jdbc:sqlite:target/users_database.db"
+    override val connectionUrl = "jdbc:sqlite:service-users/target/users_database.db"
 
     override fun createTable() {
         try {

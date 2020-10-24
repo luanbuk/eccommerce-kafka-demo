@@ -20,18 +20,22 @@ class UsersService : GenericConsumer<Order>(
     }
 
     override fun processMessage(message: ConsumerRecord<String, Order>) {
-        if (this.usersRepository.exists(message.value().userEmail)) {
+        if (message.value().emailExists()) {
             logger.info { "E-mail [${message.value().userEmail}] já presente em base de dados" }
         } else{
-            val inserted = message.value().let { order ->
-                usersRepository.insert(order.userId, order.userEmail)
-            }
+           message.value().insertNewUser()
+        }
+    }
 
-            if(inserted){
-                logger.info { "E-mail [${message.value().userEmail}] inserido em base de dados" }
-            }else{
-                logger.info { "E-mail [${message.value().userEmail}] falha ao inserir em base de dados" }
-            }
+    private fun Order.emailExists() = this@UsersService.usersRepository.exists(this.userEmail)
+
+    private fun Order.insertNewUser() = this.also {
+        val inserted = usersRepository.insert(this.userId, this.userEmail)
+
+        if(inserted){
+            logger.info { "E-mail [${this.userEmail}] inserido em base de dados" }
+        }else{
+            logger.info { "E-mail [${this.userEmail}] falha ao inserir em base de dados" }
         }
     }
 
